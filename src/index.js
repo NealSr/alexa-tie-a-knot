@@ -20,19 +20,19 @@ const languageStrings = {
         translation: {
             KNOTS: knots.KNOT_EN_US,
             SKILL_NAME: 'Ask A Knot',
-            WELCOME_MESSAGE: "Welcome to %s. You can ask a question like, how do I tie a square knot? or time me for a bowline! ... Now, what can I help you with?",
+            WELCOME_MESSAGE: "Welcome to %s. You can ask a question like, how do I tie an overhand knot? or teach me how to tie a bowline! ... Now, what can I help you with?",
             WELCOME_REPROMT: 'For instructions on what you can say, please say help me.',
             ALL_KNOTS_CARD_TITLE: '%s - All available knots.',
             DISPLAY_CARD_TITLE: '%s  - Instructions for %s.',
             TIMER_CARD_TITLE: '%s - Timing you for %s.  On your mark, get set, GO!',
-            HELP_MESSAGE: "You can ask questions such as, what knots can I learn, how do I tie a knot, or time me for a knot, or, you can say exit...Now, what can I help you with?",
-            HELP_REPROMT: "You can say things like, how do I tie, or you can say exit...Now, what can I help you with?",
+            HELP_MESSAGE: "You can ask questions such as, what knots can I learn, how do I tie a knot, or, you can say exit...Now, what can I help you with?",
+            HELP_REPROMT: "To hear all the knots, say what knots can I learn?  To learn a knot, say, how do I tie two half-hitches, or you can say exit...Now, what can I help you with?",
             STOP_MESSAGE: 'Goodbye!',
             KNOT_REPEAT_MESSAGE: 'Try saying repeat.',
             KNOT_NOT_FOUND_MESSAGE: "I\'m sorry, I currently do not know ",
             KNOT_NOT_FOUND_WITH_KNOT_NAME: 'how to tie a %s. ',
             KNOT_NOT_FOUND_WITHOUT_KNOT_NAME: 'that knot. ',
-            KNOT_NOT_FOUND_REPROMPT: 'What else can I help with? To list all knots try saying, what knots can I learn.',
+            KNOT_NOT_FOUND_REPROMPT: 'What else can I help with? To list all knots try saying, list all knots.',
         },
     },
     'en-US': {
@@ -105,7 +105,7 @@ const handlers = {
         const knot = myKnotTimes[knotName];
 
         if (knot) {
-            this.attributes.speechOutput = knot;
+            this.attributes.speechOutput = "I'm still working on a timer.  Try practicing tying the " + knot + " in the meantime.";
             this.attributes.repromptSpeech = this.t('KNOT_REPEAT_MESSAGE');
             this.emit(':askWithCard', knot, this.attributes.repromptSpeech, cardTitle, knot);
         } else {
