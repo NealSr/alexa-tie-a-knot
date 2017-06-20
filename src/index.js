@@ -60,7 +60,7 @@ const handlers = {
         }
         this.attributes.speechOutput = "You can learn the following knots: " + knotList;
         this.attributes.repromptSpeech = this.t('KNOT_REPEAT_MESSAGE');
-        this.emit(':askWithCard', myKnots, this.attributes.repromptSpeech, cardTitle)
+        this.emit(':askWithCard', knotList, this.attributes.repromptSpeech, cardTitle)
     },
     'LearnKnotIntent': function () {
         const knotSlot = this.event.request.intent.slots.Knot;
