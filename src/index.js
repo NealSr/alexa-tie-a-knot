@@ -1,66 +1,132 @@
+/* eslint-disable  func-names */
+/* eslint quote-props: ["error", "consistent"]*/
+/**
+ * This adaptation comes from the sample skill built with Amazon Alexa Skills nodejs skill development kit.
+ * The initial setting will only support en-US.
+ * The Intent Schema, Custom Slot and Sample Utterances for this skill, as well
+ * as testing instructions are located at https://github.com/NealSr/alexa-tie-a-knot
+ * The original code can be found at https://github.com/alexa/skill-sample-nodejs-howto
+ **/
+
 'use strict';
 
-var Alexa = require('alexa-sdk');
-var APP_ID = undefined; // TODO replace with your app ID (OPTIONAL).
-var recipes = require('./recipes');
+const Alexa = require('alexa-sdk');
+const knots = require('./knots');
 
-exports.handler = function(event, context, callback) {
-    var alexa = Alexa.handler(event, context);
-    alexa.APP_ID = APP_ID;
-    // To enable string internationalization (i18n) features, set a resources object.
-    alexa.resources = languageStrings;
-    alexa.registerHandlers(handlers);
-    alexa.execute();
+const APP_ID = "amzn1.ask.skill.af250a3e-350c-4f2c-9aed-0eab958b17cc";
+
+const languageStrings = {
+    'en': {
+        translation: {
+            KNOTS: knots.KNOT_EN_US,
+            SKILL_NAME: 'Ask A Knot',
+            WELCOME_MESSAGE: "Welcome to %s. You can ask a question like, how do I tie a square knot? or time me for a bowline! ... Now, what can I help you with?",
+            WELCOME_REPROMT: 'For instructions on what you can say, please say help me.',
+            ALL_KNOTS_CARD_TITLE: '%s - All available knots.',
+            DISPLAY_CARD_TITLE: '%s  - Instructions for %s.',
+            TIMER_CARD_TITLE: '%s - Timing you for %s.  On your mark, get set, GO!',
+            HELP_MESSAGE: "You can ask questions such as, what knots can I learn, how do I tie a knot, or time me for a knot, or, you can say exit...Now, what can I help you with?",
+            HELP_REPROMT: "Can you tie a knot? I cannot. Ah so you CAN knot? No. I cannot knot. Not knot? Who's there? POOH! Pooh who? No! You'll need more than two knots. Not possible. Ah, so it is possible to knot those two pieces. Not these pieces! Yes. Knot those pieces. Why not? Because it's all for naught! You can say things like, how do I tie, or you can say exit...Now, what can I help you with?",
+            STOP_MESSAGE: 'Goodbye!',
+            KNOT_REPEAT_MESSAGE: 'Try saying repeat.',
+            KNOT_NOT_FOUND_MESSAGE: "I\'m sorry, I currently do not know ",
+            KNOT_NOT_FOUND_WITH_KNOT_NAME: 'how to tie a %s. ',
+            KNOT_NOT_FOUND_WITHOUT_KNOT_NAME: 'that knot. ',
+            KNOT_NOT_FOUND_REPROMPT: 'What else can I help with? To list all knots try saying, what knots can I learn.',
+        },
+    },
+    'en-US': {
+        translation: {
+            KNOTS: knots.KNOT_EN_US,
+            SKILL_NAME: 'American Tie A Knot Helper',
+        },
+    },
 };
 
-var handlers = {
-    //Use LaunchRequest, instead of NewSession if you want to use the one-shot model
-    // Alexa, ask [my-skill-invocation-name] to (do something)...
+const handlers = {
     'LaunchRequest': function () {
-        this.attributes['speechOutput'] = this.t("WELCOME_MESSAGE", this.t("SKILL_NAME"));
+        this.attributes.speechOutput = this.t('WELCOME_MESSAGE', this.t('SKILL_NAME'));
         // If the user either does not reply to the welcome message or says something that is not
         // understood, they will be prompted again with this text.
-        this.attributes['repromptSpeech'] = this.t("WELCOME_REPROMPT");
-        this.emit(':ask', this.attributes['speechOutput'], this.attributes['repromptSpeech'])
+        this.attributes.repromptSpeech = this.t('WELCOME_REPROMT');
+        this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
     },
-    'RecipeIntent': function () {
-        var itemSlot = this.event.request.intent.slots.Item;
-        var itemName;
-        if (itemSlot && itemSlot.value) {
-            itemName = itemSlot.value.toLowerCase();
+    'ListKnotsIntent': function() {
+        const cardTitle = this.t('ALL_KNOTS_CARD_TITLE', this.t('SKILL_NAME'))
+        const myKnots = this.t('KNOTS')
+        this.attributes.speechOutput = myKnots;
+        this.attributes.repromptSpeech = this.t('KNOT_REPEAT_MESSAGE');
+        this.emit(':askWithCard', myKnots, this.attributes.repromptSpeech, cardTitle)
+    },
+    'LearnKnotIntent': function () {
+        const knotSlot = this.event.request.intent.slots.Knot;
+        let knotName;
+        if (knotSlot && knotSlot.value) {
+            knotName = knotSlot.value.toLowerCase();
         }
 
-        var cardTitle = this.t("DISPLAY_CARD_TITLE", this.t("SKILL_NAME"), itemName);
-        var recipes = this.t("RECIPES");
-        var recipe = recipes[itemName];
+        const cardTitle = this.t('DISPLAY_CARD_TITLE', this.t('SKILL_NAME'), knotName);
+        const myKnots = this.t('KNOTS');
+        const knot = myKnots[knotName];
 
-        if (recipe) {
-            this.attributes['speechOutput'] = recipe;
-            this.attributes['repromptSpeech'] = this.t("RECIPE_REPEAT_MESSAGE");
-            this.emit(':tellWithCard', recipe, this.attributes['repromptSpeech'], cardTitle, recipe);
+        if (knot) {
+            this.attributes.speechOutput = knot;
+            this.attributes.repromptSpeech = this.t('KNOT_REPEAT_MESSAGE');
+            this.emit(':askWithCard', knot, this.attributes.repromptSpeech, cardTitle, knot);
         } else {
-            var speechOutput = this.t("RECIPE_NOT_FOUND_MESSAGE");
-            var repromptSpeech = this.t("RECIPE_NOT_FOUND_REPROMPT");
-            if (itemName) {
-                speechOutput += this.t("RECIPE_NOT_FOUND_WITH_ITEM_NAME", itemName);
+            let speechOutput = this.t('KNOT_NOT_FOUND_MESSAGE');
+            const repromptSpeech = this.t('KNOT_NOT_FOUND_REPROMPT');
+            if (knotName) {
+                speechOutput += this.t('KNOT_NOT_FOUND_WITH_KNOT_NAME', knotName);
             } else {
-                speechOutput += this.t("RECIPE_NOT_FOUND_WITHOUT_ITEM_NAME");
+                speechOutput += this.t('KNOT_NOT_FOUND_WITHOUT_KNOT_NAME');
             }
             speechOutput += repromptSpeech;
 
-            this.attributes['speechOutput'] = speechOutput;
-            this.attributes['repromptSpeech'] = repromptSpeech;
+            this.attributes.speechOutput = speechOutput;
+            this.attributes.repromptSpeech = repromptSpeech;
+
+            this.emit(':ask', speechOutput, repromptSpeech);
+        }
+    },
+    'TimeKnotIntent': function () {
+        const knotSlot = this.event.request.intent.slots.Knot;
+        let knotName;
+        if (knotSlot && knotSlot.value) {
+            knotName = knotSlot.value.toLowerCase();
+        }
+
+        const cardTitle = this.t('TIMER_CARD_TITLE', this.t('SKILL_NAME'), knotName);
+        const myKnotTimes = this.t('KNOTS');
+        const knot = myKnotTimes[knotName];
+
+        if (knot) {
+            this.attributes.speechOutput = knot;
+            this.attributes.repromptSpeech = this.t('KNOT_REPEAT_MESSAGE');
+            this.emit(':askWithCard', knot, this.attributes.repromptSpeech, cardTitle, knot);
+        } else {
+            let speechOutput = this.t('KNOT_NOT_FOUND_MESSAGE');
+            const repromptSpeech = this.t('KNOT_NOT_FOUND_REPROMPT');
+            if (knotName) {
+                speechOutput += this.t('KNOT_NOT_FOUND_WITH_KNOT_NAME', knotName);
+            } else {
+                speechOutput += this.t('KNOT_NOT_FOUND_WITHOUT_KNOT_NAME');
+            }
+            speechOutput += repromptSpeech;
+
+            this.attributes.speechOutput = speechOutput;
+            this.attributes.repromptSpeech = repromptSpeech;
 
             this.emit(':ask', speechOutput, repromptSpeech);
         }
     },
     'AMAZON.HelpIntent': function () {
-        this.attributes['speechOutput'] = this.t("HELP_MESSAGE");
-        this.attributes['repromptSpeech'] = this.t("HELP_REPROMPT");
-        this.emit(':ask', this.attributes['speechOutput'], this.attributes['repromptSpeech'])
+        this.attributes.speechOutput = this.t('HELP_MESSAGE');
+        this.attributes.repromptSpeech = this.t('HELP_REPROMT');
+        this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
     },
     'AMAZON.RepeatIntent': function () {
-        this.emit(':ask', this.attributes['speechOutput'], this.attributes['repromptSpeech'])
+        this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
     },
     'AMAZON.StopIntent': function () {
         this.emit('SessionEndedRequest');
@@ -68,61 +134,21 @@ var handlers = {
     'AMAZON.CancelIntent': function () {
         this.emit('SessionEndedRequest');
     },
-    'SessionEndedRequest':function () {
-        this.emit(':tell', this.t("STOP_MESSAGE"));
+    'SessionEndedRequest': function () {
+        this.emit(':tell', this.t('STOP_MESSAGE'));
     },
     'Unhandled': function () {
-        this.attributes['speechOutput'] = this.t("HELP_MESSAGE");
-        this.attributes['repromptSpeech'] = this.t("HELP_REPROMPT");
-        this.emit(':ask', this.attributes['speechOutput'], this.attributes['repromptSpeech'])
-    }
+        this.attributes.speechOutput = this.t('HELP_MESSAGE');
+        this.attributes.repromptSpeech = this.t('HELP_REPROMPT');
+        this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
+    },
 };
 
-var languageStrings = {
-    "en": {
-        "translation": {
-            "RECIPES": recipes.RECIPE_EN_US,
-            "SKILL_NAME": "Minecraft Helper",
-            "WELCOME_MESSAGE": "Welcome to %s. You can ask a question like, what\'s the recipe for a chest? ... Now, what can I help you with.",
-            "WELCOME_REPROMPT": "For instructions on what you can say, please say help me.",
-            "DISPLAY_CARD_TITLE": "%s  - Recipe for %s.",
-            "HELP_MESSAGE": "You can ask questions such as, what\'s the recipe, or, you can say exit...Now, what can I help you with?",
-            "HELP_REPROMPT": "You can say things like, what\'s the recipe, or you can say exit...Now, what can I help you with?",
-            "STOP_MESSAGE": "Goodbye!",
-            "RECIPE_REPEAT_MESSAGE": "Try saying repeat.",
-            "RECIPE_NOT_FOUND_MESSAGE": "I\'m sorry, I currently do not know ",
-            "RECIPE_NOT_FOUND_WITH_ITEM_NAME": "the recipe for %s. ",
-            "RECIPE_NOT_FOUND_WITHOUT_ITEM_NAME": "that recipe. ",
-            "RECIPE_NOT_FOUND_REPROMPT": "What else can I help with?"
-        }
-    },
-    "en-US": {
-        "translation": {
-            "RECIPES" : recipes.RECIPE_EN_US,
-            "SKILL_NAME" : "American Minecraft Helper"
-        }
-    },
-    "en-GB": {
-        "translation": {
-            "RECIPES": recipes.RECIPE_EN_GB,
-            "SKILL_NAME": "British Minecraft Helper"
-        }
-    },
-    "de": {
-        "translation": {
-            "RECIPES" : recipes.RECIPE_DE_DE,
-            "SKILL_NAME" : "Assistent für Minecraft in Deutsch",
-            "WELCOME_MESSAGE": "Willkommen bei %s. Du kannst beispielsweise die Frage stellen: Welche Rezepte gibt es für eine Truhe? ... Nun, womit kann ich dir helfen?",
-            "WELCOME_REPROMPT": "Wenn du wissen möchtest, was du sagen kannst, sag einfach „Hilf mir“.",
-            "DISPLAY_CARD_TITLE": "%s - Rezept für %s.",
-            "HELP_MESSAGE": "Du kannst beispielsweise Fragen stellen wie „Wie geht das Rezept für“ oder du kannst „Beenden“ sagen ... Wie kann ich dir helfen?",
-            "HELP_REPROMPT": "Du kannst beispielsweise Sachen sagen wie „Wie geht das Rezept für“ oder du kannst „Beenden“ sagen ... Wie kann ich dir helfen?",
-            "STOP_MESSAGE": "Auf Wiedersehen!",
-            "RECIPE_REPEAT_MESSAGE": "Sage einfach „Wiederholen“.",
-            "RECIPE_NOT_FOUND_MESSAGE": "Tut mir leid, ich kenne derzeit ",
-            "RECIPE_NOT_FOUND_WITH_ITEM_NAME": "das Rezept für %s nicht. ",
-            "RECIPE_NOT_FOUND_WITHOUT_ITEM_NAME": "dieses Rezept nicht. ",
-            "RECIPE_NOT_FOUND_REPROMPT": "Womit kann ich dir sonst helfen?"
-        }
-    }
+exports.handler = function (event, context) {
+    const alexa = Alexa.handler(event, context);
+    alexa.APP_ID = APP_ID;
+    // To enable string internationalization (i18n) features, set a resources object.
+    alexa.resources = languageStrings;
+    alexa.registerHandlers(handlers);
+    alexa.execute();
 };
