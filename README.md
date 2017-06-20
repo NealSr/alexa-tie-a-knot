@@ -4,6 +4,14 @@ This project is a fork of https://github.com/alexa/skill-sample-nodejs-howto whi
 
 The original README can be found in the alexa repo, along with the original guide.
 
+To upload this to AWS / Alexa, edit as desired, package your dependencies, and upload as a zip file.
+
+```
+cd src
+npm install
+zip -r archive.zip .
+```
+
 ## Check out These Other Developer Resources
 
 * [Alexa Skills Kit (ASK)](https://developer.amazon.com/ask)

@@ -54,7 +54,11 @@ const handlers = {
     'ListKnotsIntent': function() {
         const cardTitle = this.t('ALL_KNOTS_CARD_TITLE', this.t('SKILL_NAME'))
         const myKnots = this.t('KNOTS')
-        this.attributes.speechOutput = myKnots;
+        let knotList = "";
+        for (var knot in myKnots['KNOT_EN_US']) {
+            knotList += knot + ", ";
+        }
+        this.attributes.speechOutput = "You can learn the following knots: " + knotList;
         this.attributes.repromptSpeech = this.t('KNOT_REPEAT_MESSAGE');
         this.emit(':askWithCard', myKnots, this.attributes.repromptSpeech, cardTitle)
     },
