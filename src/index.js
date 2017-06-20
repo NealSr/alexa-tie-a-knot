@@ -55,7 +55,7 @@ const handlers = {
         const cardTitle = this.t('ALL_KNOTS_CARD_TITLE', this.t('SKILL_NAME'))
         const myKnots = this.t('KNOTS')
         let knotList = "You can learn the following knots: ";
-        for (var knot in myKnots['KNOT_EN_US']) {
+        for (var knot in myKnots) {
             knotList += knot + ", ";
         }
         this.attributes.speechOutput = knotList;
