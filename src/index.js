@@ -54,13 +54,13 @@ const handlers = {
     'ListKnotsIntent': function() {
         const cardTitle = this.t('ALL_KNOTS_CARD_TITLE', this.t('SKILL_NAME'))
         const myKnots = this.t('KNOTS')
-        let knotList = "";
+        let knotList = "You can learn the following knots: ";
         for (var knot in myKnots['KNOT_EN_US']) {
             knotList += knot + ", ";
         }
-        this.attributes.speechOutput = "You can learn the following knots: " + knotList;
-        this.attributes.repromptSpeech = this.t('KNOT_REPEAT_MESSAGE');
-        this.emit(':askWithCard', knotList, this.attributes.repromptSpeech, cardTitle)
+        this.attributes.speechOutput = knotList;
+        this.attributes.repromptSpeech = this.t('WELCOME_REPROMT');
+        this.emit(':ask', knotList, this.attributes.repromptSpeech)
     },
     'LearnKnotIntent': function () {
         const knotSlot = this.event.request.intent.slots.Knot;
