@@ -1,5 +1,7 @@
 {"intents": [
-    {"intent": "RecipeIntent", "slots": [{"name" : "Item", "type": "LIST_OF_ITEMS"}]},
+    {"intent": "ListKnotsIntent"},
+    {"intent": "LearnKnotIntent", "slots": [{"name" : "Knot", "type": "LIST_OF_BASIC_KNOTS"}]},
+    {"intent": "TimeKnotIntent", "slots": [{"name" : "Knot", "type": "LIST_OF_BASIC_KNOTS"}]},
     {"intent": "AMAZON.RepeatIntent"},
     {"intent": "AMAZON.HelpIntent"},
     {"intent": "AMAZON.StopIntent"},

@@ -26,7 +26,7 @@ const languageStrings = {
             DISPLAY_CARD_TITLE: '%s  - Instructions for %s.',
             TIMER_CARD_TITLE: '%s - Timing you for %s.  On your mark, get set, GO!',
             HELP_MESSAGE: "You can ask questions such as, what knots can I learn, how do I tie a knot, or time me for a knot, or, you can say exit...Now, what can I help you with?",
-            HELP_REPROMT: "Can you tie a knot? I cannot. Ah so you CAN knot? No. I cannot knot. Not knot? Who's there? POOH! Pooh who? No! You'll need more than two knots. Not possible. Ah, so it is possible to knot those two pieces. Not these pieces! Yes. Knot those pieces. Why not? Because it's all for naught! You can say things like, how do I tie, or you can say exit...Now, what can I help you with?",
+            HELP_REPROMT: "You can say things like, how do I tie, or you can say exit...Now, what can I help you with?",
             STOP_MESSAGE: 'Goodbye!',
             KNOT_REPEAT_MESSAGE: 'Try saying repeat.',
             KNOT_NOT_FOUND_MESSAGE: "I\'m sorry, I currently do not know ",
