@@ -62,8 +62,9 @@ const handlers = {
         }
         knotList += this.t('KNOT_LIST_SUFFIX');
         this.attributes.speechOutput = knotList;
-        this.emit(':tellWithCard', this.attributes.speechOutput, cardTitle, knotList);
-        this.emit('LearnKnotIntent');
+        this.emit(':askWithCard', this.attributes.speechOutput, cardTitle, knotList);
+        // TODO: figure out how to make slots optional and call Learn afterward.
+        // this.emit('LearnKnotIntent');
     },
     'LearnKnotIntent': function () {
         var intentObj = this.event.request.intent;
