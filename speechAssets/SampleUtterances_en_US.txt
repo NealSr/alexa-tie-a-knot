@@ -4,9 +4,7 @@ LearnKnotIntent how do I tie an {Knot}
 LearnKnotIntent teach me how to tie {Knot}
 LearnKnotIntent teach me how to tie a {Knot}
 LearnKnotIntent teach me how to tie an {Knot}
+LearnKnotIntent teach me a knot
 ListKnotsIntent what knots can I learn
 ListKnotsIntent what knots do you know
 ListKnotsIntent list all knots
-TimeKnotIntent time me for {Knot}
-TimeKnotIntent time me for a {Knot}
-TimeKnotIntent time me for an {Knot}

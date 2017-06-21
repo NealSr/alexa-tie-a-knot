@@ -1,11 +1,12 @@
 # Adapting the Minecraft Recipe to be a Tie-A-Knot tutorial
 
-This project is a fork of https://github.com/alexa/skill-sample-nodejs-howto which is a sample howto alexa skill.  I have changed the assets and intents to relate to the Boy Scouts of America Basic Knots, and plan to add a timer function.
+This project is a fork of https://github.com/alexa/skill-sample-nodejs-howto which is a sample howto alexa skill.  I have changed the assets and intents to relate to the Basic Knots you'd learn in Cub Scouts or Boy Scouts.
 
-The original README can be found in the alexa repo, along with the original guide.
+The original README can be found in the above alexa repo, along with the original guide.
 
 To upload this to AWS / Alexa, edit as desired, package your dependencies, and upload as a zip file.
 
+Sample terminal commands:
 ```
 cd src
 npm install
