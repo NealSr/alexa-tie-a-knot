@@ -72,7 +72,8 @@ const handlers = {
         if (knotSlot && knotSlot.value) {
             knotName = knotSlot.value.toLowerCase();
         } else {
-            this.emit(':elicitSlot', knotSlot, this.t('NEXT_KNOT_MESSAGE'), this.t('NEXT_KNOT_REPROMPT'), intentObj);
+            // TODO: this has to be handled with dialogue directives, we can't simply re-prompt yet.
+            // this.emit(':elicitSlot', knotSlot, this.t('NEXT_KNOT_MESSAGE'), this.t('NEXT_KNOT_REPROMPT'), intentObj);
         }
 
         const cardTitle = this.t('DISPLAY_CARD_TITLE', this.t('SKILL_NAME'), knotName);
