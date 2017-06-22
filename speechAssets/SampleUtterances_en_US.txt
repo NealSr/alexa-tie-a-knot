@@ -1,10 +1,16 @@
 LearnKnotIntent how do I tie {Knot}
 LearnKnotIntent how do I tie a {Knot}
 LearnKnotIntent how do I tie an {Knot}
+LearnKnotIntent how do you tie {Knot}
+LearnKnotIntent how do you tie a {Knot}
+LearnKnotIntent how do you tie an {Knot}
 LearnKnotIntent teach me how to tie {Knot}
 LearnKnotIntent teach me how to tie a {Knot}
 LearnKnotIntent teach me how to tie an {Knot}
-LearnKnotIntent teach me a knot
+LearnKnotIntent {Knot}
+RandomKnotIntent teach me a knot
+RandomKnotIntent teach me any knot
+RandomKnotIntent teach me a random knot
 ListKnotsIntent what knots can I learn
 ListKnotsIntent what knots do you know
 ListKnotsIntent list all knots

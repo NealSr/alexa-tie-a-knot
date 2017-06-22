@@ -1,9 +1,31 @@
-{"intents": [
-    {"intent": "ListKnotsIntent"},
-    {"intent": "LearnKnotIntent", "slots": [{"name" : "Knot", "type": "LIST_OF_BASIC_KNOTS"}]},
-    {"intent": "AMAZON.RepeatIntent"},
-    {"intent": "AMAZON.HelpIntent"},
-    {"intent": "AMAZON.StopIntent"},
-    {"intent": "AMAZON.CancelIntent"}
+{
+  "intents": [
+    {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.RepeatIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "Knot",
+          "type": "LIST_OF_BASIC_KNOTS"
+        }
+      ],
+      "intent": "LearnKnotIntent"
+    },
+    {
+      "intent": "RandomKnotIntent"
+    },
+    {
+      "intent": "ListKnotsIntent"
+    }
   ]
 }

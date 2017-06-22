@@ -84,7 +84,7 @@ const handlers = {
         if (knot) {
             this.attributes.speechOutput = knot;
             this.attributes.repromptSpeech = this.t('KNOT_REPEAT_MESSAGE');
-            this.emit(':askWithCard', knot, this.attributes.repromptSpeech, cardTitle, knot);
+            this.emit(':tellWithCard', knot, this.attributes.repromptSpeech, cardTitle, knot);
         } else {
             let speechOutput = this.t('KNOT_NOT_FOUND_MESSAGE');
             const repromptSpeech = this.t('KNOT_NOT_FOUND_REPROMPT');
@@ -100,6 +100,18 @@ const handlers = {
 
             this.emit(':ask', speechOutput, repromptSpeech);
         }
+    },
+    'RandomKnotIntent': function () {
+        const myKnots = this.t('KNOTS');
+        let knotNumber = Math.floor((Math.random() * Object.keys(myKnots).length - 1) + 1);
+        let knotName = Object.keys(myKnots)[knotNumber].toLowerCase();
+
+        const cardTitle = this.t('DISPLAY_CARD_TITLE', this.t('SKILL_NAME'), knotName);
+        const knot = myKnots[knotName];
+
+        this.attributes.speechOutput = knot;
+        this.attributes.repromptSpeech = this.t('KNOT_REPEAT_MESSAGE');
+        this.emit(':tellWithCard', knot, this.attributes.repromptSpeech, cardTitle, knot);
     },
     'AMAZON.HelpIntent': function () {
         this.attributes.speechOutput = this.t('HELP_MESSAGE');
